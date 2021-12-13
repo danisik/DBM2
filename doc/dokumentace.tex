@@ -1,0 +1,184 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[IL2]{fontenc}
+\usepackage[czech]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{svg}
+\usepackage{textcomp}
+\usepackage{listings,xcolor}
+\usepackage[final]{pdfpages}
+\usepackage{verbatim}
+\usepackage{todonotes}
+\usepackage[T1]{fontenc}
+\usepackage{multirow}
+
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage[pdftex,hypertexnames=false]{hyperref}
+\hypersetup{colorlinks=true,
+  unicode=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black,
+  bookmarksopen=true}
+
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+
+\title{\textbf{Dokumentace semestrální práce} \\KIV/DBM2}
+\author{Vojtěch Danišík}
+\begin{document}
+
+\begin{titlepage} 
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+	\begin{center}
+	\includegraphics[width=12cm]{img/fav_logo}\\
+	\end{center}
+	\textsc{\LARGE Západočeská univerzita v Plzni}\\[1.5cm] 	
+	\textsc{\Large Databázové systémy a metody zprac.inf.2}\\[0.5cm] 
+	\textsc{\large KIV/DBM2}\\[0.5cm] 
+	\HRule\\[0.4cm]
+	{\huge\bfseries Dokumentace semestrální práce}\\[0.4cm] 
+	\HRule\\[1.5cm]
+
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			Vojtěch \textsc{Danišík}\newline
+			A19N0028P\newline
+			danisik@students.zcu.cz
+		\end{flushleft}
+	\end{minipage}
+	\vfill\vfill\vfill
+	\begin{flushright}
+	{\large\today}
+	\end{flushright}
+	\vfill 
+\end{titlepage}
+\newpage
+\tableofcontents
+\newpage
+
+\section{Zadání}
+Již několik let je oblíbeným buzzwordem Open Data, což ve své podstatě jsou data poskytnutá veřejnosti pro libovolné další zpracování. Na našem území je nejčastěji s tímto pojmem spojován portál \href{https://data.gov.cz/}{https://data.gov.cz/}, který slouží jako katalog datasetů veřejné správy. Problém je, že momentálně katalog obsahuje 135 510 záznamů a je obtížné udělat si přehled o tom, jaké informace lze vůbec očekávat, že by se zde mohly objevit.
+
+\begin{itemize}
+\item Vyberte si podmnožinu dat na Portálu otevřených dat, případně jiný zdroj. \\
+\item Popište makroskopicky témata, kterých se datasety týkají.\\
+\item Vybranou podmnožinu zkoumejte detailně a popište jejich kvalitu* a použitelnost**.\\
+\end{itemize}
+
+\noindent * např. úplnost, smysluplné hodnoty, homogenní datový typ v rámci atributu, použití číselníků místo volného textu (problematické by byla existence výrazů "pozit.", "pozitivní", "kladné" ve stejném kontextu), ...\\
+
+\noindent ** např. definice atributů, existence cross-referencí na jiné datasety, použití číselníků (kódová značka pro město místo jeho názvu), ...\\
+
+\noindent Data: \href{https://data.gov.cz/}{https://data.gov.cz/}, nebo jiné dle uvážení.\\
+ \newpage
+
+\section{Analýza datasetu}
+Z portálu https://data.gov.cz jsem vybral dataset s názvem: \textbf{Počty studentů krajských vyšších odborných škol - Královéhradecký kraj}.\\\\
+\noindent Informace o datasetu:
+\begin{itemize}
+\item velikost souboru: 132 kB 
+\item počet sloupců: 39 
+\item počet řádků: 326 
+\item rok: Školní rok 2019-2020 \\
+\end{itemize}
+
+\noindent Sloupce v datasetu by se dali rozdělit do 5 informativních bloků:
+\begin{itemize}
+\item adresa školy (obec, kód obce, ulice, ...)
+\item právní informace (např. IČO, IZO, REDIZO, ...) 
+\item informace o studiích (název školy, počet studentů, název oboru, ...) 
+\item zeměpisné informace (souřadnice)
+\item dodatečné informace (id školy v rámci databáze)\\
+\end{itemize}
+
+\subsection{Popis sloupců - adresa školy}
+\todo{todo}
+
+\subsection{Popis sloupců - právní informace}
+V datasetu jsou zmíněny právní informace o škole, a to především jejich \textit{IČO}, \textit{IZO} a \textit{REDIZO}.\\
+IČO znamená identifikační číslo osoby, což je osmímísné identifikační číslo právnické osoby. V datasetu se nachází IČO jako čtyřmístné až osmimístné. To může být zapříčiněno oříznutím všech nul nazačátku (může být takto uloženo v databázi nebo bylo upraveno při exportu) .V datasetu se nachází 54 odlišných IČO a nachází se ve všech záznamech.\\
+
+IZO znamená identifikační znak organizace, který má formu devítimístného čísla a začíná číslicí 0, 1 nebo 2. IZO může být pro každou část školy různé (pokud jsou pod jednou hlavičkou dohromady střední škola, vyšší odborná škola, ...). V případě otevření datasetu pomocí excelu / openoffice / power BI se může IZO vyskytovat jako např. čtyřmístné číslo. To je zapříčiněno oříznutím všech nul, které se vyskytují nazačátku čísla. V některým případech může IZO být stejné jako IČO, jako v případě našeho datasetu. V datasetu se nachází 54 odlišných hodnot, které jsou buď stejné jako IČO, nebo začínají číslem 0 nebo 1 a mají 9 číslic.\\
+
+REDIZO je resortní identifikátor právnické osoby, které je taktéž devitimístné číslo, ale zpravidla začínají číslicí 6 a je unikátní pro školu. V datasetu se nachází 54 odlišných hodnot, které splňují formát.
+
+
+
+\subsection{Popis sloupců - informace o studiích}
+V rámci tohoto bloku se popíše informace o oborech - název, typ, délka vzdělávání, počet studujících studentů, ...\\
+
+První sloupec je \textit{obor\_nazev}, který značí název oboru na dané škole. Celkem se v datasetu vyskytuje 123 oborů.\\
+
+Sloupec \textit{obor\_kod} označuje identifikační kód oboru, který se skládá z kombinace čísel a písmen a jeho délka je 7 znaků (ve zjednodušeném formátu bez pomlček a lomítka). Pro jeden obor může existovat více identifikačních kódu, které zároveň určují i druh vzdělávání  (např. gastronomie s odborným výcvikem a maturitou, gastronomie s vyučením i maturitou - nástavbové studium). Celkem se v datasetu vyskytuje 129 oborových kódů, což značí, že je zde 6 oborů, které mají rozdílný druh vzdělávání. Zároveň jsou zde špatně zadány 4 kódy - obsahují dodatečnou mezeru za posledním znakem. \\
+\noindent Formát oborových kódů: \href{https://www.vyberskoly.cz/jak-se-vyznat-v-kodech-oboru}{https://www.vyberskoly.cz/jak-se-vyznat-v-kodech-oboru} \\
+
+Sloupec \textit{vzdelavani\_delka\_roky} určuje délku studia oboru v počtu let. V datasetu existují obory, které lze studovat 1 rok (zkrácená studia nebo střední vzdělávání bez výučního listu a maturity), ale i osmiletá gymnázia. Žádná škola neposkytuje obor, který trvá 7 let. \\
+
+Každý obor má i svůj druh vzdělávání, který je v datasetu reprezentován sloupcem \textit{vzdelavani\_druh}. Druh vzdělávání určuje výstup z daného oboru - maturita, výuční list, ... Celkem je zde 6 druhů vzdělávání:
+\begin{itemize}
+\item nástavbové studium - pro absolventy s výučním listem
+\item střední vzdělávání
+\item střední vzdělávání s maturitní zkouškou
+\item střední vzdělávání s výučním listem
+\item zkrácené studium k získání středního vzdělání s maturitní zkouškou
+\item zkrácené studium k získání středního vzdělání s výučním listem\\
+\end{itemize}
+
+Další sloupec je \textit{vzdelavani\_forma}, který určuje formu vzdělávání oboru. V datasetu existují pouze 2 formy - denní a dálková. Dálková forma se ve většině případů vyskytuje hlavně u nástavbového studia. \\
+
+Následující sloupce s názvem \textit{pocet\_studentu\_1\_rocnik} až \textit{pocet\_studentu\_8\_rocnik} vyjadřují počty studentů v ročnících. \\
+
+Sloupec \textit{pocet\_studentu\_celkem} vyjadřuje celkový počet studentů ve všech ročnících na daném oboru. \\
+
+Sloupec \textit{pocet\_absolventu\_2019\_2020} vyjadřuje počet absolventů daného oboru za školní rok 2019-2020. \\
+
+Poslední sloupec \textit{pocet\_prijatych\_studentu} vyjadřuje celkový počet přijatých žáků do prvních ročníků daného oboru za tento rok. \\
+
+
+\subsection{Popis sloupců - zeměpisné informace}
+V datasetu se nachází sloupce popisující zeměpisné informace školy. Sloupce \textit{wkt}, \textit{x} a \textit{y} určují pozici školy na mapě.\\
+Wkt je well-known text formát, který obsahuje souřadnice y,x a určuje pozici objektu na mapě. Tento sloupec nemá žádný informativní význam společně se sloupci \textit{x} a \textit{y} (adresa školy je detailně popsána, není potřeba ukládat souřadnice, alespoň ne v datasetu zkoumající počty studentů).
+
+
+\subsection{Popis sloupců - dodatečné informace}
+V datasetu se nachází sloupec s názvem \textit{OBJECTID}, které obsahuje jednotlivé číselné identifikátory oborů na školách v rámci databáze. Tento sloupec nemá žádný informativní význam.\\
+Zárověň se zde nachází sloupec \textit{dp\_id}, u kterého nelze zjistit jakou nese informaci. Hodnoty typu 'ZOSS1' jsou nic neříkající a je zřejmé, že tento atribut nemá žádný informativní význam vzhledem k účelu tohoto datasetu. 
+
+
+
+\newpage
+
+\section{Použitelnost datasetu}
+\todo{todo}
+\noindent Atributy datasetu jsou rozděleny do 3 bloků na základě použitelnosti: významné, Nice-to-have a nepoužitelné\\
+\noindent \textbf{Významné atributy}:
+\begin{itemize}
+\item 1 \\
+\end{itemize}
+
+\noindent \textbf{Nice-to-have atributy}:
+\begin{itemize}
+\item \textit{IČO} - rozhodně není potřeba ukládat do datasetu, ale pro některé lidi to může být zajímavá informace, díky které můžou o škole zjistit více informací - např. právní informace nebo více informací k oborům (za jde obor dobíhající, kapacita oboru, ...)
+\item \textit{IZO} - stejné jako pro IČO
+\item \textit{REDIZO} - stejné jako pro IČO \\
+\end{itemize}
+
+\noindent \textbf{Nepoužitelné atributy}:
+\begin{itemize}
+\item \textit{OBJECTID} - id oboru v interní databázi není potřeba ukládat do datasetů
+\item \textit{wkt} - není potřeba ukládat zeměpisné informace o škole u datasetů zobrazující počty studentů na oborech, navíc v datasetu je uložena celá adresa školy (i jejich pracovišť)
+\item \textit{x} - stejné jako pro wkt
+\item \textit{y} - stejné jako pro wkt
+\item \textit{dp\_id} - neidentifikovaltený atribut, který ale podle mého stejně nebude mít důležitou informaci k počtům studentů
+\end{itemize}
+
+\newpage
+
+\section{Závěr}
+\todo{todo}
+počet škol, oborů
+	
+\end{document}
