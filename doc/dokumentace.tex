@@ -95,7 +95,27 @@ Z portálu https://data.gov.cz jsem vybral dataset s názvem: \textbf{Počty stu
 \end{itemize}
 
 \subsection{Popis sloupců - adresa školy}
-\todo{todo}
+Pro popis adresy školy existuje překvapivě až moc sloupců vzhledem k povaze datasetu, který má především sdělit počet studentů na daných oborech v daných školách.\\
+
+Sloupec \textit{nazev} vyjadřuje název školy. Zároveň je zde v některých případech zaznamenána i celá adresa školy s číslem popisným. Celkově je zde zaznamenáno 54 škol. Jak již bylo zmíněno, v některých případech je v názvu školy zaznamenána i adresa školy (ať už celá, částečná nebo že se jedná o příspěvkovou organizaci), což vzhledem k nedodržení formátu pro všechny školy je zbytečná informace a postačil by pouhý název školy, protože v dalších sloupcích jsou uvedeny údaje o lokalitě školy. \\
+
+Sloupec \textit{nazev\_okresu} obsahuje informaci o názvu okresu, ve kterém se škola nachází.  Celkem se v datasetu nachází 5 okresů. \\
+
+Následující sloupec \textit{kod\_okresu} obsahuje kódy jednotlivých okresů, díky kterým lze identifikovat okres v daném kraji. Formát kódu okresu je čtyřmístné číslo (RÚIÁN kód, viz \textbf{\href{https://vdp.cuzk.cz/vdp/ruian/okresy/vyhledej}{odkaz}}). Všechny zadané kódy okresů jsou validní a odkazují na správný název okresu.\\
+
+Další sloupec je \textit{nazev\_obce}, ve kterém se definuje název obce, ve které škola sídlí. Celkem se v datasetu nachází 18 obcí. \\
+
+Stejně jako pro okres se zde nachází sloupec s kódem obce - \textit{kod\_obce}. Kód obce je šestimístné číslo (RÚIÁN kód, viz \textbf{\href{https://vdp.cuzk.cz/vdp/ruian/obce/vyhledej}{odkaz}}). Všechny zadané kódy obcí jsou validní a odkazují na správný název obce. \\
+
+Sloupec \textit{nazev\_ulice} obsahuje název ulice, ve které se škola nachází.\\
+
+Sloupec \textit{cislo\_domovni} obsahuje domovní číslo školy. \\
+
+Sloupec \textit{typ\_cisla\_domovniho} definuje typ domovního čísla (číslo popisné, číslo evidenční). V datasetu se nachází pouze školy, které mají pouze číslo popisné. \\
+
+Sloupec \textit{cislo\_orientacni} obsahuje číslo orientační pro danou školu. Pouze 11 škol má i číslo orientační. \\
+
+\noindent Následující sloupce obsahují celou adresu pracoviště školy. Pracoviště nemusí mít totožnou adresu jako je hlavní adresa. Tyto sloupce není potřeba zmiňovat \/ rozepisovat, protože mají stejný význam jako sloupce \textit{nazev\_obce}, \textit{nazev\_ulice}, \textit{cislo\_domovni}, \textit{typ\_cisla\_domovniho} a \textit{cislo\_orientacni}.
 
 \subsection{Popis sloupců - právní informace}
 V datasetu jsou zmíněny právní informace o škole, a to především jejich \textit{IČO}, \textit{IZO} a \textit{REDIZO}.\\
@@ -103,9 +123,7 @@ IČO znamená identifikační číslo osoby, což je osmímísné identifikačn�
 
 IZO znamená identifikační znak organizace, který má formu devítimístného čísla a začíná číslicí 0, 1 nebo 2. IZO může být pro každou část školy různé (pokud jsou pod jednou hlavičkou dohromady střední škola, vyšší odborná škola, ...). V případě otevření datasetu pomocí excelu / openoffice / power BI se může IZO vyskytovat jako např. čtyřmístné číslo. To je zapříčiněno oříznutím všech nul, které se vyskytují nazačátku čísla. V některým případech může IZO být stejné jako IČO, jako v případě našeho datasetu. V datasetu se nachází 54 odlišných hodnot, které jsou buď stejné jako IČO, nebo začínají číslem 0 nebo 1 a mají 9 číslic.\\
 
-REDIZO je resortní identifikátor právnické osoby, které je taktéž devitimístné číslo, ale zpravidla začínají číslicí 6 a je unikátní pro školu. V datasetu se nachází 54 odlišných hodnot, které splňují formát.
-
-
+REDIZO je resortní identifikátor právnické osoby, které je taktéž devítimístné číslo, ale zpravidla začínají číslicí 6 a je unikátní pro školu. V datasetu se nachází 54 odlišných hodnot, které splňují formát.
 
 \subsection{Popis sloupců - informace o studiích}
 V rámci tohoto bloku se popíše informace o oborech - název, typ, délka vzdělávání, počet studujících studentů, ...\\
@@ -152,18 +170,32 @@ Zárověň se zde nachází sloupec \textit{dp\_id}, u kterého nelze zjistit ja
 \newpage
 
 \section{Použitelnost datasetu}
-\todo{todo}
 \noindent Atributy datasetu jsou rozděleny do 3 bloků na základě použitelnosti: významné, Nice-to-have a nepoužitelné\\
+
 \noindent \textbf{Významné atributy}:
 \begin{itemize}
-\item 1 \\
+\item \textit{nazev} - název školy je nutný atribut, je potřeba vědět na jaké škole je daný počet studentů
+\item \textit{nazev\_okresu} / \textit{kod\_okresu} - zařazen jako významný, protože některé školy mohou mít totožný název i s jinými školami z jiných okresů (např. \textbf{Střední škola služeb, obchodu a gastronomie}
+\item \textit{nazev\_obce} / \textit{kod\_obce} - zařazen ze stejného principu jako \textit{nazev\_okresu}
+\item \textit{obor\_nazev} - povinné
+\item všechny atributy vyznačující počet studentů v prvním až osmém ročníku \textit{pocet\_studentu\_x\_rocnik} - povinné, počet studentů v x-ročníku
+\item \textit{pocet\_absolventu\_2019\_2020} - velice zajímavá informace, určitě je dobré vědět kolik absolventů prošlo školou za rok 2019-2020 - může ovlivnit názor na studium na dané škole
+\item \textit{pocet\_prijatych\_studentu} - taktéž zajímavá informace, může reflektovat dnešní zájem studentů o daný obor \\
 \end{itemize}
 
 \noindent \textbf{Nice-to-have atributy}:
 \begin{itemize}
 \item \textit{IČO} - rozhodně není potřeba ukládat do datasetu, ale pro některé lidi to může být zajímavá informace, díky které můžou o škole zjistit více informací - např. právní informace nebo více informací k oborům (za jde obor dobíhající, kapacita oboru, ...)
 \item \textit{IZO} - stejné jako pro IČO
-\item \textit{REDIZO} - stejné jako pro IČO \\
+\item \textit{REDIZO} - stejné jako pro IČO 
+\item \textit{nazev\_ulice} - může se stát, že v rámci jedné obce mohou být dvě školy se stejnými názvy (velice málo pravděpodobné) - proto pouze nice-to-have.
+\item \textit{cislo\_domovni}  - stejné jako u \textit{nazev\_ulice}
+\item \textit{cislo\_orientacni} - stejné jako u \textit{nazev\_ulice}
+\item \textit{obor\_kod} - název oboru může být stejný pro více vzdělávacích druhů
+\item \textit{vzdelavani\_delka\_roky} - může být zajímá informace pro některé lidi
+\item \textit{vzdelavani\_druh} - může být zajímá informace pro některé lidi
+\item \textit{vzdelavani\_forma} - může být zajímá informace pro některé lidi
+\item \textit{pocet\_studentu\_celkem} - nice-to-have informace, lze dopočítat z předchozích atributů \textit{pocet\_studentu\_x\_rocnik} \\
 \end{itemize}
 
 \noindent \textbf{Nepoužitelné atributy}:
@@ -173,12 +205,21 @@ Zárověň se zde nachází sloupec \textit{dp\_id}, u kterého nelze zjistit ja
 \item \textit{x} - stejné jako pro wkt
 \item \textit{y} - stejné jako pro wkt
 \item \textit{dp\_id} - neidentifikovaltený atribut, který ale podle mého stejně nebude mít důležitou informaci k počtům studentů
+\item \textit{typ\_cisla\_domovniho} - typ čísla domovního bude vždy \textbf{číslo popisné}, protože \textbf{číslo evidenční} slouží pouze pro stavby určené k rekreaci.
+\item všechny atributy určující pozici pracoviště - nepoužitelné pro dataset zobrazující počty studentů
 \end{itemize}
 
 \newpage
 
 \section{Závěr}
-\todo{todo}
-počet škol, oborů
+Z analýzy datasetu vyplynulo, že z celkových 39 atributů jich je 16 významných, které slouží pro identifikaci oboru na škole a aktuální počet studujících žáků. \\
+\indent V datasetu je 11 atributů obsahující dodatečné informace o škole a o počtu studentů.\\
+\indent Celkem 12 atributů (což dělá necelou třetinu všech atributů) nemá žádné použitelné informace vzhledem k povaze datasetu - informovat případné nové studenty (nebo i normální obyvatelstvo) o dostupných oborech v okresech ležících v Karlovarském kraji.\\
+
+\indent Všechny atributy mají homogenní datový typ pro všechny své hodnoty. Atributy \textit{cislo\_orientacni} a \textit{cislo\_orientacni\_pracoviste} obsahovali prázdné hodnoty v +- 70\% případech (očekávaná hodnota, většina budov nemá své číslo orientační). Jediné špatně zadané hodnoty byly u sloupce \textit{obor\_kod}, kde ve 4 případech byly kódy zapsány s dodatečnou mezerou na konci. Cross-reference na další datasety neexistují. \\
+
+\indent V datasetu je celkem 129 oborů z různých škol a s ruznými druhy vzdělávání. Celkový počet škol je 54 nacházejících se v 5 okresech a 18 obcích / městech. \\
+
+
 	
 \end{document}
